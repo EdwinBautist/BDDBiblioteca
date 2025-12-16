@@ -8,6 +8,17 @@ public class Libro {
     private int  ejemplares;
     private String edicion;
     private String descripcion;
-    private
+    private String portada;
 
+    Libro (){}
+    Libro( int id_libro, String titulo, int no_paginas, int anio_publicacion, int  ejemplares, String edicion, String descripcion, String portada){
+        this.id_libro = id_libro;
+        this.titulo = titulo;
+        this.no_paginas = no_paginas;
+        this.anio_publicacion = anio_publicacion;
+        this.ejemplares = ejemplares;
+        this.edicion = edicion;
+        this.descripcion = descripcion;
+        this.portada = portada;
+    }
 }
