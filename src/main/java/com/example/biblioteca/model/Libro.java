@@ -10,6 +10,10 @@ public class Libro {
     private String descripcion;
     private String portada;
 
+    private String nombreAutor;
+    private String nombreEditorial;
+    private String nombreGenero;
+
     public Libro (){}
     public Libro( int id_libro, String titulo, int no_paginas, int anio_publicacion, int  ejemplares, String edicion, String descripcion, String portada){
         this.id_libro = id_libro;
@@ -70,5 +74,19 @@ public class Libro {
     }
     public void setPortada(String portada) {
         this.portada = portada;
+    }
+
+    public String getNombreAutor() { return nombreAutor; }
+    public void setNombreAutor(String nombreAutor) { this.nombreAutor = nombreAutor; }
+
+    public String getNombreEditorial() { return nombreEditorial; }
+    public void setNombreEditorial(String nombreEditorial) { this.nombreEditorial = nombreEditorial; }
+
+    public String getNombreGenero() { return nombreGenero; }
+    public void setNombreGenero(String nombreGenero) { this.nombreGenero = nombreGenero; }
+
+    @Override
+    public String toString() {
+        return "Libro: " + titulo;
     }
 }
