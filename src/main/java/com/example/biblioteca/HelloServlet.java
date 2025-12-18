@@ -3,8 +3,10 @@ package com.example.biblioteca;
 import java.io.*;
 import java.sql.*; // Importante para Connection y SQLException
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.HttpSession;
 
 // IMPORTANTE: Importa tus clases de configuración
 import com.example.biblioteca.config.config;
@@ -32,7 +34,7 @@ public class HelloServlet extends HttpServlet {
     }
 
     // 2. AQUÍ ESTÁ TU CÓDIGO (doPost maneja el formulario)
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
@@ -54,25 +56,38 @@ public class HelloServlet extends HttpServlet {
         out.println("<html><body>");
 
         if (usuariologueado != null) {
-            out.println("<h2 style='color:green'>¡Bienvenido !"+ usuariologueado.getNombre() + "!</h2>");
-            out.println("<p>Rol Detectado: <b>" + usuariologueado + "</b></p>");
-            out.println("<p>Matricula: " + usuariologueado.getMatricula() + "</p>");
+            // 1. CREAR SESIÓN (La "mochila" del usuario)
+            // Esto permite que los datos viajen a la siguiente página
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", usuariologueado);
+
+            // 2. LOGICA DE REDIRECCIÓN
+            String rol = usuariologueado.getRol();
+
+            // Comparamos el rol (Asegúrate que coincida con lo que tienes en MySQL)
+            if (rol.equalsIgnoreCase("admin") || rol.equalsIgnoreCase("bibliotecario")) {
+
+                System.out.println("Redirigiendo a panel bibliotecario...");
+                response.sendRedirect("panel_bibliotecario.jsp");
+
+            } else if (rol.equalsIgnoreCase("alumno") || rol.equalsIgnoreCase("profesor")) {
+
+                System.out.println("Redirigiendo a panel alumno...");
+                response.sendRedirect("panel_alumno.jsp");
+
+            } else {
+                // Si el rol es desconocido
+                out.println("Error: Rol no reconocido (" + rol + ")");
+            }
 
         } else {
-            out.println("<h2 style='color:red'>Acceso Denegado</h2>");
-            out.println("<p> Matrícula o contraseña incorrecta. </p>");
+            // Si el login falla
+            request.setAttribute("error", "Credenciales incorrectas");
+            // Usamos forward en lugar de sendRedirect para pasar el mensaje de error
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
 
         out.println("<a href='index.jsp'>Volver</a>");
-
-
-// --- AGREGA ESTO PARA DEPURAR ---
-        System.out.println("========================================");
-        System.out.println("INTENTO DE LOGIN:");
-        System.out.println("1. Matrícula recibida del form: '" + matriculaForm + "'");
-        System.out.println("2. Contraseña recibida del form: '" + passForm + "'");
-        System.out.println("========================================");
-// --------------------------------
         out.println("</body></html>");
     }
 }
