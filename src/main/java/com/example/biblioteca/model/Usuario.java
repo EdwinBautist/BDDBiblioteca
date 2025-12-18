@@ -21,4 +21,48 @@ public class Usuario {
         this.telefono = telefono;
         this.correo = correo;
     }
+
+    public String getMatricula(){
+        return matricula;
+    }
+    public String getRol() {
+        return rol;
+    }
+    public String getNombre(){
+        return nombre;
+    }
+    public String getContrasena(){
+        return contrasena;
+    }
+    public String getDireccion(){
+        return direccion;
+    }
+    public String getCorreo(){
+        return correo;
+    }
+    public String getTelefono(){
+        return telefono;
+    }
+    //sets
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
 }
