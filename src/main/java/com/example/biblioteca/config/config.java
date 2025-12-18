@@ -1,16 +1,23 @@
 package com.example.biblioteca.config;
 import java.sql.*;
-//Establecemos la conexión con la base de datos.
+
 public class config {
-    public Connection conexion(){
+
+    public Connection conexion(CredencialesBD datos) {
         Connection conn = null;
-        try{
-            Class.forName("com.mysql.cl.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nombre_db?useSSL=false", "edwi", "edwi123");
-            System.out.println("Conexión exitosa!");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String url = "jdbc:mysql://" + datos.getIp() + ":3306/" + datos.getNombreBD()
+                    + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+            conn = DriverManager.getConnection(url, datos.getUsuario(), datos.getPassword());
+
+            System.out.println("Conectado a: " + datos.getIp());
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            System.err.println("Error al conectar con la base de datos");
+            System.err.println("Error conectando a " + datos.getIp());
         }
         return conn;
     }
