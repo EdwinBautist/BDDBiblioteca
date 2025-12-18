@@ -3,8 +3,12 @@
 <%
     // Verificamos si hay alguien logueado (Seguridad básica)
     Usuario u = (Usuario) session.getAttribute("usuario");
-    if(u == null || !u.getRol().equals("admin")) {
-        response.sendRedirect("index.jsp"); // Si no es admin, ¡fuera!
+    if(u == null || (
+            !u.getRol().trim().equalsIgnoreCase("admin") &&
+                    !u.getRol().trim().equalsIgnoreCase("bibliotecario")
+    )) {
+
+        response.sendRedirect("index.jsp");
         return;
     }
 %>

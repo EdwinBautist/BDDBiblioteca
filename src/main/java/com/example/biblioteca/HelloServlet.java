@@ -62,7 +62,7 @@ public class HelloServlet extends HttpServlet {
             session.setAttribute("usuario", usuariologueado);
 
             // 2. LOGICA DE REDIRECCIÓN
-            String rol = usuariologueado.getRol();
+            String rol = usuariologueado.getRol().trim();
 
             // Comparamos el rol (Asegúrate que coincida con lo que tienes en MySQL)
             if (rol.equalsIgnoreCase("admin") || rol.equalsIgnoreCase("bibliotecario")) {
