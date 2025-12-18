@@ -23,6 +23,13 @@
     <a href="libros?accion=nuevo" style="padding: 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">+ Agregar Nuevo Libro</a>
 </div>
 
+<div class="search-box">
+    <form action="consulta-libros" method="GET">
+        <label>Buscar Libros:</label><br>
+        <input type="text" name="busqueda" placeholder="Ej: Harry, Java, a..." required>
+        <button type="submit">🔍 Buscar</button>
+    </form>
+</div>
 <h3>Catálogo de Libros</h3>
 <div style="display: flex; flex-wrap: wrap; gap: 20px;">
     <%
@@ -50,8 +57,15 @@
     <%
         }
     %>
-</div>
 
+</div>
+<br><br>
+<hr>
+<a href="registro.jsp">
+    <button type="button" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+        Crear Nueva Cuenta
+    </button>
+</a>
 <br><hr>
 <ul>
     <li><a href="#">Gestionar préstamos</a></li>

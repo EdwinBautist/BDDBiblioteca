@@ -12,7 +12,7 @@ public class LibroDAO {
 
     private config dbConfig = new config();
     // Ajusta las credenciales si es necesario
-    private CredencialesBD credenciales = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
+    private CredencialesBD credenciales = new CredencialesBD();
 
     // ==========================================
     // 1. MÉTODO LISTAR (Lectura con JOINs)

@@ -19,7 +19,7 @@ public class LibroConsultaDAO {
         Connection con = null;
         try {
             // Usamos tus credenciales explícitas para asegurar conexión
-            CredencialesBD credenciales = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
+            CredencialesBD credenciales = new CredencialesBD();
             config db = new config();
             con = db.conexion(credenciales);
 
@@ -42,7 +42,8 @@ public class LibroConsultaDAO {
         List<Libro> lista = new ArrayList<>();
         Connection con = null;
         try {
-            CredencialesBD credenciales = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
+            // Bueno: Toma los datos automáticamente de CredencialesBD.java
+            CredencialesBD credenciales = new CredencialesBD();
             config db = new config();
             con = db.conexion(credenciales);
 

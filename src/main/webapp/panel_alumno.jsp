@@ -37,7 +37,7 @@
 <ul>
     <li><a href="consulta-libros">Ver catálogo completo</a></li>
 </ul>
-    <li><a href="consulta-libros">Ver todos los libros</a></li> <li><a href="#">Mis Préstamos Activos</a></li>
+    <li><a href="#">Mis Préstamos Activos</a></li>
 </ul>
 
 <br>

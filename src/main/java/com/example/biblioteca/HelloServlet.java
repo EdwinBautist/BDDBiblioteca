@@ -43,7 +43,7 @@ public class HelloServlet extends HttpServlet {
 
         // Credenciales
         //CredencialesBD datos = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
-        CredencialesBD datos = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
+        CredencialesBD datos = new CredencialesBD();
 
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuariologueado = dao.validar(matriculaForm, passForm, datos);
