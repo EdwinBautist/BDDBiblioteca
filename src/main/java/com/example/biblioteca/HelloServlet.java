@@ -33,14 +33,13 @@ public class HelloServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-
         String userForm = request.getParameter("usuario");
         String passForm = request.getParameter("password");
 
         // --- TU LÓGICA DE SELECCIÓN DE IP ---
 
         // CASO 1: Para trabajar en tu PC (Localhost)
-        CredencialesBD datos = new CredencialesBD("localhost", "nombre_db", "euler", "1234");
+        CredencialesBD datos = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
 
         // CASO 2: Para conectar a la otra PC (Descomenta esta y comenta la de arriba)
         // CredencialesBD datos = new CredencialesBD("192.168.1.50", "nombre_db", "euler", "1234");

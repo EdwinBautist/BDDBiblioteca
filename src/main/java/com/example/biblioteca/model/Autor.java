@@ -11,7 +11,7 @@ public class Autor {
         this.id_Autor = id_Autor;
         this.nombre_autor = nombre_autor;
     }
-    //gest
+    //gets
     public int getId_Autor() {
         return id_Autor;
     }
