@@ -10,8 +10,8 @@ public class Libro {
     private String descripcion;
     private String portada;
 
-    Libro (){}
-    Libro( int id_libro, String titulo, int no_paginas, int anio_publicacion, int  ejemplares, String edicion, String descripcion, String portada){
+    public Libro (){}
+    public Libro( int id_libro, String titulo, int no_paginas, int anio_publicacion, int  ejemplares, String edicion, String descripcion, String portada){
         this.id_libro = id_libro;
         this.titulo = titulo;
         this.no_paginas = no_paginas;

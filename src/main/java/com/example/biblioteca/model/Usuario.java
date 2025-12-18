@@ -10,9 +10,9 @@ public class Usuario {
     private String correo;
 
     //constructores->
-    Usuario (){}
+    public Usuario (){}
 
-    Usuario (String matricula,String rol,String nombre,String contrasena,String direccion,String telefono,String correo){
+    public Usuario (String matricula,String rol,String nombre,String contrasena,String direccion,String telefono,String correo){
         this.matricula = matricula;
         this.rol = rol;
         this.nombre = nombre;
