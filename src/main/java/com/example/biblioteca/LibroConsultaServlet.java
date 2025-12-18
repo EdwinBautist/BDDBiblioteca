@@ -13,22 +13,30 @@ public class LibroConsultaServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 1. Validamos sesión (Opcional, si quieres probar rápido puedes comentar estas 4 líneas)
+        // Validar sesión
         HttpSession session = request.getSession();
-        if (session.getAttribute("usuarioLogueado") == null && session.getAttribute("usuario") == null) {
-            // Si no hay nadie logueado, mandamos al login
+        if (session.getAttribute("usuario") == null && session.getAttribute("usuarioLogueado") == null) {
             response.sendRedirect("index.jsp");
             return;
         }
 
-        // 2. Llamamos a nuestro NUEVO DAO
         LibroConsultaDAO dao = new LibroConsultaDAO();
-        List<Libro> lista = dao.obtenerTodosLosLibros();
+        List<Libro> lista;
 
-        // 3. Guardamos la lista en la "mochila" (request)
+        // 1. Recibimos el texto de la caja de búsqueda
+        String busqueda = request.getParameter("busqueda");
+
+        // 2. Lógica: ¿Escribió algo o está vacío?
+        if (busqueda != null && !busqueda.trim().isEmpty()) {
+            System.out.println("DEBUG: Buscando coincidencias para: " + busqueda);
+            lista = dao.buscarLibros(busqueda);
+        } else {
+            System.out.println("DEBUG: Trayendo lista completa");
+            lista = dao.obtenerTodosLosLibros();
+        }
+
+        // 3. Enviamos los datos a TU jsp de consulta
         request.setAttribute("misLibrosConsultados", lista);
-
-        // 4. Mandamos a la NUEVA página JSP
-        request.getRequestDispatcher("tabla_libros.jsp").forward(request, response);
+        request.getRequestDispatcher("tabla_consulta_libros.jsp").forward(request, response);
     }
 }

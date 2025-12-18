@@ -5,6 +5,7 @@ import com.example.biblioteca.config.config;
 import com.example.biblioteca.model.Libro;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement; // <--- IMPORTANTE: No olvides este import
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,15 +13,13 @@ import java.util.List;
 
 public class LibroConsultaDAO {
 
+    // Método 1: Traer TODOS (Sin cambios)
     public List<Libro> obtenerTodosLosLibros() {
         List<Libro> lista = new ArrayList<>();
         Connection con = null;
-
         try {
-            // 1. Configuramos los datos de conexión DIRECTAMENTE aquí para evitar errores
-            // OJO: Confirma si tu contraseña es "1234" o "euler2718" (la que usaste en git)
+            // Usamos tus credenciales explícitas para asegurar conexión
             CredencialesBD credenciales = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
-
             config db = new config();
             con = db.conexion(credenciales);
 
@@ -30,23 +29,50 @@ public class LibroConsultaDAO {
                 ResultSet rs = stmt.executeQuery(sql);
 
                 while (rs.next()) {
-                    // Usamos el constructor vacío y los setters para evitar errores de orden
-                    Libro lib = new Libro();
-                    lib.setId_libro(rs.getInt("id_libro"));
-                    lib.setTitulo(rs.getString("titulo"));
-                    lib.setNo_paginas(rs.getInt("no_paginas"));
-                    lib.setAnio_publicacion(rs.getInt("anio_publicacion"));
-                    lib.setEjemplares(rs.getInt("ejemplares"));
-                    lib.setEdicion(rs.getString("edicion"));
-                    // Agrega más campos si los necesitas
-
-                    lista.add(lib);
+                    lista.add(mapearLibro(rs));
                 }
                 con.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
         return lista;
+    }
+
+    // Método 2: BUSCADOR (Lo nuevo)
+    public List<Libro> buscarLibros(String texto) {
+        List<Libro> lista = new ArrayList<>();
+        Connection con = null;
+        try {
+            CredencialesBD credenciales = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
+            config db = new config();
+            con = db.conexion(credenciales);
+
+            if (con != null) {
+                // El % permite buscar coincidencias parciales (ej: "a" encuentra "Física")
+                String sql = "SELECT * FROM libro WHERE titulo LIKE ?";
+
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, "%" + texto + "%"); // Agregamos los % aquí
+
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    lista.add(mapearLibro(rs));
+                }
+                con.close();
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return lista;
+    }
+
+    // Ayuda para no repetir código al crear el objeto
+    private Libro mapearLibro(ResultSet rs) throws Exception {
+        Libro lib = new Libro();
+        lib.setId_libro(rs.getInt("id_libro"));
+        lib.setTitulo(rs.getString("titulo"));
+        lib.setNo_paginas(rs.getInt("no_paginas"));
+        lib.setAnio_publicacion(rs.getInt("anio_publicacion"));
+        lib.setEjemplares(rs.getInt("ejemplares"));
+        lib.setEdicion(rs.getString("edicion"));
+        return lib;
     }
 }
