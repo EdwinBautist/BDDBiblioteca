@@ -18,12 +18,44 @@
 <body style="background-color: #f0f8ff;"> <h1>Zona Administrativa</h1>
 <h2>Bienvenido, <%= u.getNombre() %></h2>
 <hr>
+
+<div style="margin-bottom: 20px;">
+    <a href="libros?accion=nuevo" style="padding: 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">+ Agregar Nuevo Libro</a>
+</div>
+
+<h3>Catálogo de Libros</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <%
+        // Obtenemos la lista que el servlet debería enviar
+        java.util.List<com.example.biblioteca.model.Libro> lista = (java.util.List) request.getAttribute("listaLibros");
+        if (lista != null) {
+            for (com.example.biblioteca.model.Libro libro : lista) {
+    %>
+    <div style="border: 1px solid #ccc; padding: 15px; width: 200px; background: white; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+        <img src="img/<%= libro.getPortada() != null ? libro.getPortada() : "default.jpg" %>" alt="Portada" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">
+        <h4 style="margin: 10px 0 5px 0;"><%= libro.getTitulo() %></h4>
+        <p style="font-size: 0.9em; color: #555;">Autor: <%= libro.getNombreAutor() %></p>
+        <p style="font-size: 0.8em;">Stock: <%= libro.getEjemplares() %></p>
+
+        <div style="margin-top: 10px; display: flex; justify-content: space-between;">
+            <a href="libros?accion=editar&id=<%= libro.getId_libro() %>" style="color: #007bff; text-decoration: none; font-size: 0.9em;">Modificar</a>
+            <a href="libros?accion=eliminar&id=<%= libro.getId_libro() %>" onclick="return confirm('¿Seguro que deseas eliminarlo?')" style="color: #dc3545; text-decoration: none; font-size: 0.9em;">Eliminar</a>
+        </div>
+    </div>
+    <%
+        }
+    } else {
+    %>
+    <p>No hay libros cargados o debes <a href="libros">refrescar la lista aquí</a>.</p>
+    <%
+        }
+    %>
+</div>
+
+<br><hr>
 <ul>
-    <li><a href="#">Registrar nuevo libro</a></li>
     <li><a href="#">Gestionar préstamos</a></li>
-    <li><a href="#">Ver reportes</a></li>
+    <li><a href="index.jsp">Cerrar Sesión</a></li>
 </ul>
-<br>
-<a href="index.jsp">Cerrar Sesión</a>
 </body>
 </html>

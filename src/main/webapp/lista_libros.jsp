@@ -21,13 +21,13 @@
             for(Libro l : lista) {
     %>
     <tr>
-        <td><%= l.getIsbn() %></td>
+        <td><%= l.getId_libro() %></td>
         <td><%= l.getTitulo() %></td>
-        <td><%= l.getAutor() %></td>
-        <td><%= l.getStock() %></td>
+        <td><%= l.getNombreAutor() %></td>
+        <td><%= l.getEjemplares() %></td>
         <td>
-            <a href="libros?accion=editar&id=<%= l.getIsbn() %>">Editar</a> |
-            <a href="libros?accion=eliminar&id=<%= l.getIsbn() %>" onclick="return confirm('¿Seguro?');">Borrar</a>
+            <a href="libros?accion=editar&id=<%= l.getId_libro() %>">Editar</a> |
+            <a href="libros?accion=eliminar&id=<%= l.getId_libro() %>" onclick="return confirm('¿Seguro?');">Borrar</a>
         </td>
     </tr>
     <%      }

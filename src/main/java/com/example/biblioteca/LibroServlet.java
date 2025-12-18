@@ -29,7 +29,8 @@ public class LibroServlet extends HttpServlet {
                 // Por defecto: LISTAR libros
                 List<Libro> lista = dao.listar();
                 request.setAttribute("listaLibros", lista);
-                request.getRequestDispatcher("lista_libros.jsp").forward(request, response);
+                // IMPORTANTE: Redirigir al panel bibliotecario para que vea los libros
+                request.getRequestDispatcher("panel_bibliotecario.jsp").forward(request, response);
                 break;
         }
     }
@@ -37,6 +38,7 @@ public class LibroServlet extends HttpServlet {
     // 2. doPost: Para GUARDAR un libro nuevo (Insertar)
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         try {
             // Recibimos datos del formulario
             String titulo = request.getParameter("titulo");

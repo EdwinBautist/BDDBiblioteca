@@ -12,7 +12,7 @@ public class LibroDAO {
 
     private config dbConfig = new config();
     // Ajusta las credenciales si es necesario
-    private CredencialesBD credenciales = new CredencialesBD("localhost", "biblioteca", "edwin", "edwi123");
+    private CredencialesBD credenciales = new CredencialesBD("10.123.179.6", "BIBLIOTECA", "euler", "euler2718");
 
     // ==========================================
     // 1. MÉTODO LISTAR (Lectura con JOINs)
@@ -118,6 +118,40 @@ public class LibroDAO {
             return false;
         } finally {
             try { if (con != null) { con.setAutoCommit(true); con.close(); } } catch (SQLException e) {}
+        }
+    }
+
+    // ==========================================
+    // 4. MÉTODO ELIMINAR
+    // ==========================================
+    public void eliminar(int idLibro) {
+        String sqlRel1 = "DELETE FROM libro_autor WHERE id_libro = ?";
+        String sqlRel2 = "DELETE FROM libro_editorial WHERE id_libro = ?";
+        String sqlRel3 = "DELETE FROM libro_genero WHERE id_libro = ?";
+        String sqlLibro = "DELETE FROM libro WHERE id_libro = ?";
+
+        Connection con = null;
+        try {
+            con = dbConfig.conexion(credenciales);
+            con.setAutoCommit(false); // Transacción para borrar todo o nada
+
+            // 1. Borrar relaciones primero
+            try(PreparedStatement ps = con.prepareStatement(sqlRel1)) { ps.setInt(1, idLibro); ps.executeUpdate(); }
+            try(PreparedStatement ps = con.prepareStatement(sqlRel2)) { ps.setInt(1, idLibro); ps.executeUpdate(); }
+            try(PreparedStatement ps = con.prepareStatement(sqlRel3)) { ps.setInt(1, idLibro); ps.executeUpdate(); }
+
+            // 2. Borrar el libro
+            try(PreparedStatement ps = con.prepareStatement(sqlLibro)) {
+                ps.setInt(1, idLibro);
+                ps.executeUpdate();
+            }
+
+            con.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try { if(con!=null) con.rollback(); } catch (SQLException ex){}
+        } finally {
+            try { if(con!=null) {con.setAutoCommit(true); con.close();} } catch (Exception e){}
         }
     }
 
