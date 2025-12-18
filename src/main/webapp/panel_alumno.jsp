@@ -17,7 +17,7 @@
 <hr>
 <h3>Tus opciones:</h3>
 <ul>
-    <li><a href="#">Buscar Libros</a></li>
+    <li><a href="consulta-libros">Buscar Libros</a></li>
     <li><a href="#">Mis Préstamos Activos</a></li>
 </ul>
 <br>

@@ -17,7 +17,7 @@ public class config {
             // 2. URL para MySQL
             // Estructura: jdbc:mysql://IP:3306/NOMBRE_BD?useSSL=false
             // Agregamos '?useSSL=false' para evitar advertencias comunes en desarrollo
-            String url = "jdbc:mysql://" + datos.getIp() + ":3306/" + datos.getNombreBD() + "?useSSL=false&serverTimezone=UTC";
+            String url = "jdbc:mysql://" + datos.getIp() + ":3306/" + datos.getNombreBD() + "?useSSL=false&allowPublicKeyRetrieval=true";
 
             // 3. Establecer conexión usando los datos que recibimos del Servlet
             con = DriverManager.getConnection(url, datos.getUsuario(), datos.getPassword());
