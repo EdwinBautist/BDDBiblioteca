@@ -1,6 +1,31 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.biblioteca.model.Libro" %>
+<%@ page import="com.example.biblioteca.model.Usuario" %>
+
+<%
+    // 2. LÓGICA PARA DECIDIR A DÓNDE VOLVER
+    Usuario u = (Usuario) session.getAttribute("usuarioLogueado"); // O "usuario", depende como lo guardaste en el Login
+
+    // Si por alguna razón es null, probamos con la otra llave por seguridad
+    if (u == null) {
+        u = (Usuario) session.getAttribute("usuario");
+    }
+
+    String linkVolver = "index.jsp"; // Por defecto, si falla, al inicio
+    String textoVolver = "Volver al Inicio";
+
+    if (u != null) {
+        // AQUÍ ESTÁ EL TRUCO: Comparamos el rol (ajusta "bibliotecario" a como lo tengas en tu Base de Datos)
+        if (u.getRol() != null && u.getRol().equalsIgnoreCase("bibliotecario")) {
+            linkVolver = "panel_bibliotecario.jsp";
+            textoVolver = "Volver al Panel Bibliotecario";
+        } else {
+            linkVolver = "panel_alumno.jsp";
+            textoVolver = "Volver al Panel Alumno";
+        }
+    }
+%>
 
 <!DOCTYPE html>
 <html>
@@ -12,13 +37,11 @@
 
         h1 { color: #1a1a1a; text-align: center; }
 
-        /* Estilos de la tabla */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #007bff; color: white; font-weight: bold; }
         tr:hover { background-color: #f1f1f1; }
 
-        /* Estilos para mensajes y botones */
         .empty-msg { text-align: center; color: #dc3545; font-size: 1.2em; padding: 20px; }
         .btn-volver {
             display: inline-block;
@@ -51,11 +74,8 @@
         </thead>
         <tbody>
         <%
-            // 1. RECIBIMOS LA LISTA QUE MANDÓ EL SERVLET
-            // "misLibrosConsultados" debe coincidir con el nombre en el Servlet: request.setAttribute("misLibrosConsultados", lista);
             List<Libro> lista = (List<Libro>) request.getAttribute("misLibrosConsultados");
 
-            // 2. VERIFICAMOS SI HAY DATOS
             if (lista != null && !lista.isEmpty()) {
                 for (Libro libro : lista) {
         %>
@@ -86,7 +106,7 @@
     </table>
 
     <center>
-        <a href="panel_alumno.jsp" class="btn-volver">⬅ Volver al Menú / Nueva Búsqueda</a>
+        <a href="<%= linkVolver %>" class="btn-volver">⬅ <%= textoVolver %></a>
     </center>
 </div>
 
